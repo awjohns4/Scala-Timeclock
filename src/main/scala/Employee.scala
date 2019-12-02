@@ -55,6 +55,12 @@ class Employee(name: String, number: Int, role: String) {
 
   def getEmployeeRole: String = employeeRole
 
+  def setClockedIn(clockedIn: Boolean): Unit ={
+    this.clockedIn = clockedIn
+  }
+
+  def getClockedIn: Boolean = clockedIn
+
   def addTimeWorked(time: Int): Unit ={
     hoursWorkedThisPeriod += time
   }
@@ -78,18 +84,20 @@ class Employee(name: String, number: Int, role: String) {
   }
 
   def punchTime(): Boolean ={
-    if(clockedIn){
+    if(!clockedIn){
       clockedIn = true
       startTime = LocalDateTime.now.format(DateTimeFormatter.ofPattern("HH:mm")).split(":")
-      return true
+      true
     }
     else {
       clockedIn = false
       val endTime = LocalDateTime.now.format(DateTimeFormatter.ofPattern("HH:mm")).split(":")
       hoursWorkedThisPeriod += endTime(0).toInt - startTime(0).toInt
       minutesWorkedThisPeriod += endTime(1).toInt - startTime(1).toInt
-      return false
+      false
     }
   }
+
+  override def toString: String = employeeName
 
 }
