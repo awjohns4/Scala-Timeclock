@@ -1,10 +1,17 @@
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
+
 class Employee(name: String, number: Int, role: String) {
 
   var employeeName: String = name
   var employeeNumber: Int = number
-  var timeWorkedThisPeriod: Double = 0.0
-  var timeWorkedLastPeriod: Double = 0.0
+  var hoursWorkedThisPeriod: Int = 0
+  var minutesWorkedThisPeriod: Int = 0
+  var hoursWorkedLastPeriod: Int = 0
+  var minutesWorkedLastPeriod: Int = 0
   var employeeRole: String = role
+  var startTime: Array[String] = new Array[String](2)
+  var clockedIn: Boolean = false
 
   def setEmployeeName(name: String): Unit  ={
     employeeName = name
@@ -18,17 +25,29 @@ class Employee(name: String, number: Int, role: String) {
 
   def getEmployeeNumber: Int = employeeNumber
 
-  def setTimeWorkedThisPeriod(time: Double): Unit ={
-    timeWorkedThisPeriod = time
+  def setHoursWorkedThisPeriod(time: Int): Unit ={
+    hoursWorkedThisPeriod = time
   }
 
-  def getTimeWorkedThisPeriod: Double = timeWorkedThisPeriod
+  def getHoursWorkedThisPeriod: Int = hoursWorkedThisPeriod
 
-  def setTimeWorkedLastPeriod(time: Double): Unit ={
-    timeWorkedLastPeriod = time
+  def setMinutesWorkedThisPeriod(time: Int): Unit ={
+    minutesWorkedThisPeriod = time
   }
 
-  def getTimeWorkedLastPeriod: Double = timeWorkedLastPeriod
+  def getMinutesWorkedThisPeriod: Int = minutesWorkedThisPeriod
+
+  def setMinutesWorkedLastPeriod(time: Int): Unit ={
+    minutesWorkedLastPeriod = time
+  }
+
+  def getMinutesWorkedLastPeriod: Int = minutesWorkedLastPeriod
+
+  def setHoursWorkedLastPeriod(time: Int): Unit ={
+    hoursWorkedLastPeriod = time
+  }
+
+  def getHoursWorkedLastPeriod: Int = hoursWorkedLastPeriod
 
   def setEmployeeRole(role: String): Unit ={
     employeeRole = role
@@ -36,24 +55,41 @@ class Employee(name: String, number: Int, role: String) {
 
   def getEmployeeRole: String = employeeRole
 
-  def addTimeWorked(time: Double): Unit ={
-    timeWorkedThisPeriod += time
+  def addTimeWorked(time: Int): Unit ={
+    hoursWorkedThisPeriod += time
   }
 
-  def subtractTimeWorked(time: Double): Unit ={
-    timeWorkedThisPeriod -= time
+  def subtractTimeWorked(time: Int): Unit ={
+    hoursWorkedThisPeriod -= time
   }
 
   def newPayPeriod(): Unit ={
-    timeWorkedLastPeriod = timeWorkedThisPeriod
-    timeWorkedThisPeriod = 0.0
+    hoursWorkedLastPeriod = hoursWorkedThisPeriod
+    minutesWorkedLastPeriod = minutesWorkedLastPeriod
+    hoursWorkedThisPeriod = 0
+    minutesWorkedThisPeriod = 0
   }
 
   def clearTimeWorked(): Unit ={
-    timeWorkedThisPeriod = 0.0
-    timeWorkedLastPeriod = 0.0
+    hoursWorkedThisPeriod = 0
+    hoursWorkedLastPeriod = 0
+    minutesWorkedThisPeriod = 0
+    minutesWorkedLastPeriod = 0
   }
 
-
+  def punchTime(): Boolean ={
+    if(clockedIn){
+      clockedIn = true
+      startTime = LocalDateTime.now.format(DateTimeFormatter.ofPattern("HH:mm")).split(":")
+      return true
+    }
+    else {
+      clockedIn = false
+      val endTime = LocalDateTime.now.format(DateTimeFormatter.ofPattern("HH:mm")).split(":")
+      hoursWorkedThisPeriod += endTime(0).toInt - startTime(0).toInt
+      minutesWorkedThisPeriod += endTime(1).toInt - startTime(1).toInt
+      return false
+    }
+  }
 
 }

@@ -27,14 +27,14 @@ class EmployeeMap {
 
   def getTotalTimeWorkedThisPeriod(): Double ={
     var totalTimeWorked: Double = 0.0
-    employeeMap foreach (employee => totalTimeWorked += employee._2.getTimeWorkedThisPeriod)
+    employeeMap foreach (employee => totalTimeWorked += employee._2.getHoursWorkedThisPeriod)
 
     return totalTimeWorked
   }
 
   def getTotalTimeWorkedLastPeriod(): Double ={
     var totalTimeWorked: Double = 0.0
-    employeeMap foreach (employee => totalTimeWorked += employee._2.getTimeWorkedLastPeriod)
+    employeeMap foreach (employee => totalTimeWorked += employee._2.getHoursWorkedLastPeriod)
 
     return totalTimeWorked
   }
