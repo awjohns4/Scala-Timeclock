@@ -1,7 +1,7 @@
 import javafx.application.Application
 import javafx.beans.value.ChangeListener
 import javafx.event.ActionEvent
-import javafx.geometry.Pos
+import javafx.geometry.{Insets, Pos}
 import javafx.scene.Scene
 import javafx.scene.control.Button
 import javafx.scene.control.ChoiceBox
@@ -25,7 +25,7 @@ class Main extends Application {
   override def start(primaryStage: Stage): Unit = {
 
     var buttonStyle = "-fx-background-color: darkslateblue; -fx-text-fill: white;"
-    var textStyle = "-fx-font: normal bold 20px 'serif' "
+    var textStyle = "-fx-font: normal bold 20px 'sans-serif' "
     primaryStage.centerOnScreen()
 
     var employeeMap = new EmployeeMap
@@ -80,16 +80,22 @@ class Main extends Application {
     clockedInLabel.setStyle(textStyle)
     selectEmployeeLabel.setStyle(textStyle)
 
+    val homeVBoxTitle = new Label("Welcome to Work!")
+    homeVBoxTitle.setStyle(textStyle)
+
+    val timePunchVBoxTitle = new Label("Please Enter Your Employee ID:");
+    timePunchVBoxTitle.setStyle(textStyle)
 
     val spacing = 20
 
     val homeHBox = new HBox(spacing, homePunchButton, homeReportButton)
     homeHBox.setAlignment(Pos.CENTER)
 
-    val homeVBox = new VBox(spacing, homeHBox, clockedInLabel)
+    val homeVBox = new VBox(spacing, homeVBoxTitle, homeHBox, clockedInLabel)
     homeVBox.setAlignment(Pos.CENTER)
 
-    val timePunchVBox = new VBox(spacing, employeeNumber, timePunchButton, returnButton)
+    val timePunchVBox = new VBox(spacing, timePunchVBoxTitle, employeeNumber, timePunchButton, returnButton)
+    timePunchVBox.setPadding(new Insets(20))
     timePunchVBox.setAlignment(Pos.CENTER)
 
     val reportVBox = new VBox(spacing, selectEmployeeLabel, reportChoiceBox, getReportButton, reportOutputArea, returnButton)
